@@ -1,0 +1,52 @@
+@import "mixins";
+
+@text-color: #333;
+@font-size: 14px;
+@line-height: 20px;
+
+
+html,body,div,p,ul,ol,li,span,h1,h2,h3,h4,h5,h6,pre,code{margin:0;padding:0}
+
+html, body {
+    background: #f9f9f9;
+}
+
+body {
+    padding: 0 @line-height;
+    font-weight: 200;
+    font-size: @font-size;
+    line-height: @line-height;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: @text-color;
+}
+
+
+#content {
+    margin: 0 auto @line-height*3;
+    padding: @line-height*2;
+    max-width: 600px;
+    background: #fff;
+    .border-radius(0, @line-height/2, @line-height/2, 0);
+    .box-shadow(0px 1px 8px rgba(0, 0, 0, 0.5));
+}
+
+h1 {
+    font-size: @font-size*2;
+    line-height: @line-height*2;
+    margin-bottom: @line-height;
+}
+
+p,pre {
+    margin-bottom: @line-height;
+}
+
+pre {
+    padding-left: @line-height;
+}
+
+a {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
