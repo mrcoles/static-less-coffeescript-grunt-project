@@ -1,4 +1,10 @@
 node_modules/
 dist/
+.tmp/
+
+# remove if you want files in src/js versioned
 src/js/
+
+# remove if you want files in src/css versioned
 src/css/
+
