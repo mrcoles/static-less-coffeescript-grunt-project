@@ -13,7 +13,8 @@ module.exports = function(grunt) {
         'grunt-contrib-concat',
         'grunt-contrib-less',
         'grunt-contrib-coffee',
-        'grunt-usemin'
+        'grunt-usemin',
+        'grunt-filerev'
     ].forEach(function(task) { grunt.loadNpmTasks(task); });
 
 
@@ -21,7 +22,21 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         clean: {
-            dist: ['dist']
+            dist: {
+                src: [
+                    'dist/*',
+
+                    // funny dance to keep old versioned dist/css/*.pkg.*.css
+                    '!dist/css/**',
+                    'dist/css/*',
+                    '!dist/css/*.pkg.*.css',
+
+                    // funny dance to keep old versioned dist/css/*.pkg.*.js
+                    '!dist/js/**',
+                    'dist/js/*',
+                    '!dist/js/*.pkg.*.js'
+                ]
+            }
         },
         copy: {
             dist: {
@@ -34,7 +49,8 @@ module.exports = function(grunt) {
                         '*',
                         'css/**',
                         'js/**',
-                        'ico/**'
+                        'ico/**',
+                        'img/**'
                     ],
                     filter: 'isFile'
                 }]
@@ -46,7 +62,7 @@ module.exports = function(grunt) {
                     paths: ["src/less"]
                 },
                 files: {
-                    // TODO - support multiple less files
+                    // TODO - automatically support multiple less files
                     "src/css/style.css": "src/less/style.less"
                 }
             }
@@ -62,12 +78,26 @@ module.exports = function(grunt) {
             }
         },
         useminPrepare: {
-            html: ['dist/index.html']
+            html: [
+                // you can enter other html files here
+                'dist/index.html'
+            ]
         },
         usemin: {
-            html: ['dist/index.html'],
+            html: [
+                // you can enter other html files here
+                'dist/index.html'
+            ],
             options: {
                 dirs: ['dist/']
+            }
+        },
+        filerev: {
+            files: {
+                src: [
+                    'dist/css/*.pkg.css',
+                    'dist/js/*.pkg.js'
+                ]
             }
         },
         // TODO - support qunit
@@ -83,7 +113,10 @@ module.exports = function(grunt) {
                     console: true,
                     module: true,
                     document: true
-                }
+                },
+                ignores: [
+                    // enter paths to ignore here, e.g., 'src/js/jquery.js'
+                ]
             }
         },
         watch: {
@@ -103,5 +136,6 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['less', 'coffee', 'jshint', 'clean', 'copy',
                                    'useminPrepare',
                                    'concat', 'uglify', 'cssmin',
+                                   'filerev',
                                    'usemin']);
 };
