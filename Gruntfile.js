@@ -21,6 +21,8 @@ module.exports = function(grunt) {
     // setup init config
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+
+        // clean up the `dist/` directory, i.e., delete files
         clean: {
             dist: {
                 src: [
@@ -38,6 +40,8 @@ module.exports = function(grunt) {
                 ]
             }
         },
+
+        // copy over `src/` files to `dist/`
         copy: {
             dist: {
                 files: [{
@@ -56,42 +60,56 @@ module.exports = function(grunt) {
                 }]
             }
         },
+
+        // compile LESS files in `src/less/` into CSS files
         less: {
             css: {
                 options: {
                     paths: ["src/less"]
                 },
-                files: {
-                    // TODO - automatically support multiple less files
-                    "src/css/style.css": "src/less/style.less"
-                }
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'src/less',
+                        src: ['*.less'],
+                        dest: 'src/css/',
+                        ext: '.css'
+                    }
+                ]
             }
         },
+
+        // compile coffeescript files in `/src/coffee/` into JS files
         coffee: {
             glob_to_multiple: {
                 expand: true,
-                //flatten: true,
+                // flatten: true,
                 cwd: 'src/coffee',
                 src: ['**/*.coffee'],
                 dest: 'src/js',
                 ext: '.js'
             }
         },
+
+        // prep call for usemin (target all html files)
         useminPrepare: {
             html: [
-                // you can enter other html files here
-                'dist/index.html'
+                'dist/*.html'
             ]
         },
+
+        // final call for usemin (target all html files)
         usemin: {
             html: [
-                // you can enter other html files here
-                'dist/index.html'
+                'dist/*.html'
             ],
             options: {
                 dirs: ['dist/']
             }
         },
+
+        // revision a specific set of static files, this can be
+        // extended to do more files and images too
         filerev: {
             files: {
                 src: [
@@ -100,10 +118,13 @@ module.exports = function(grunt) {
                 ]
             }
         },
+
         // TODO - support qunit
         qunit: {
             files: ['test/**/*.html']
         },
+
+        // validate JS files using jshint (great for catching simple bugs)
         jshint: {
             files: ['gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
             options: {
@@ -119,6 +140,8 @@ module.exports = function(grunt) {
                 ]
             }
         },
+
+        // watch command to auto-compile files that have changed
         watch: {
             coffee: {
                 files: ['src/**/*.coffee'],
@@ -131,8 +154,12 @@ module.exports = function(grunt) {
         }
     });
 
+    // Composite tasks...
+
+    // run tests
     grunt.registerTask('test', ['jshint', 'qunit']);
 
+    // full build of project to `dist/`
     grunt.registerTask('default', ['less', 'coffee', 'jshint', 'clean', 'copy',
                                    'useminPrepare',
                                    'concat', 'uglify', 'cssmin',

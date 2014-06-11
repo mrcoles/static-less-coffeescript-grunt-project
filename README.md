@@ -18,6 +18,12 @@ Auto-compile `.less` and `.coffee` files from the `src/less/` and `src/coffee` f
 
     grunt watch
 
-Build the project, compile `.less` and `.coffee` files, run jshint, and combine any static assets that are specified in `build` HTML comments (see examples in src/index.html).
+Build the project into the `dist/` folder: compile `.less` and `.coffee` files, run jshint, and combine any static assets that are specified in `build` HTML comments (see examples in src/index.html) with versioned file names (for safe caching).
 
     grunt
+
+### Notes
+
+The project expects a specific structure of all development files inside the `src/` folder, just one HTML file as `index.html`, and specific names for the packaged and minified assets. Look in `Gruntfile.js` for more details and to change settings/functionality.
+
+If you want to store files directly in `src/css/` or `src/js/`, then make sure to remove the ignores for them inside the `.gitignore` file.
