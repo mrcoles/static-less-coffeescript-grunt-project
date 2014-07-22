@@ -159,6 +159,9 @@ module.exports = function(grunt) {
     // run tests
     grunt.registerTask('test', ['jshint', 'qunit']);
 
+    // like watch, but build stuff at start too!
+    grunt.registerTask('dev', ['less', 'coffee', 'watch']);
+
     // full build of project to `dist/`
     grunt.registerTask('default', ['less', 'coffee', 'jshint', 'clean', 'copy',
                                    'useminPrepare',
