@@ -1,5 +1,6 @@
 {
   "name": "static-less-coffeescript-grunt-project",
+  "author": "Your Name <yourname@sample.com> (http://sample.com)",
   "version": "0.0.0",
   "devDependencies": {
     "grunt": "~0.4.5",
